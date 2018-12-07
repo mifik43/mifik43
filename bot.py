@@ -1,12 +1,34 @@
 # -*- coding: utf-8 -*-
-import config
 import telebot
 
-bot = telebot.TeleBot(config.token)
+bot = telebot.TeleBot("742477060:AAEk_YrAinrZnsIzTShu8z14bUiA9PwIpOU")
+
 
 @bot.message_handler(content_types=["text"])
-def repeat_all_messages(message): # Название функции не играет никакой роли, в принципе
-    bot.send_message(message.chat.id, message.text)
+def handle_text(message):
+    if message.text == "Hi":
+        bot.send_message(message.from_user.id, "Hello! I am HabrahabrExampleBot. How can i help you?")
 
-if __name__ == '__main__':
-     bot.polling(none_stop=True)
+    elif message.text == "How are you?" or message.text == "How are u?":
+        bot.send_message(message.from_user.id, "I'm fine, thanks. And you?")
+
+    else:
+        bot.send_message(message.from_user.id, "Sorry, i dont understand you.")
+
+
+bot.polling(none_stop=True, interval=0)
+
+
+# Обработчик команд '/start' и '/help'.
+@bot.message_handler(commands=['start', 'help'])
+def handle_start_help(message):
+    pass
+
+
+# Обработчик для документов и аудиофайлов
+@bot.message_handler(content_types=['document', 'audio'])
+def handle_document_audio(message):
+    pass
+
+
+bot.polling(none_stop=True, interval=0)
